@@ -7,7 +7,7 @@ export const App = () => {
   return (
     <div>
     <div>{count}</div>
-    <button onClick={inctement}></button>
+    <button onClick={inctement}>Click</button>
     </div>
   )
 }
