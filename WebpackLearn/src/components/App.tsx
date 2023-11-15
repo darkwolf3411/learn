@@ -1,13 +1,26 @@
-import { useState } from "react"
-import classes from './App.module.scss'
+import { Link, Outlet } from "react-router-dom";
+import CalendarPng from "@/assets/calendar.png";
+import CalendarSvg from "@/assets/calendarSvg.svg";
 
 export const App = () => {
-    const [count, setCount] = useState(0);
-    const inctement = () => setCount(prev => prev + 1)
+  if(__PLATFORM__ === 'desctop'){
+    console.log('THISISDESCTOP');
+  }
   return (
     <div>
-    <div className={classes.item}>{count}</div>
-    <button className={classes.button} onClick={inctement}>Click</button>
+      <Link to={"/shop"}>Shop</Link>
+      <Link to={"/about"}>About</Link>
+      <div>
+        <img src={CalendarPng} alt="calendar" />
+      </div>
+      <div>
+        <CalendarSvg
+          width={50}
+          height={50}
+          style={{ color: "red" }}
+        />
+      </div>
+      <Outlet />
     </div>
-  )
-}
+  );
+};
