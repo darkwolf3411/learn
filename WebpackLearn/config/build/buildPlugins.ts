@@ -5,6 +5,7 @@ import webpack from "webpack";
 import { BuildOptions } from "./types/types";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
 export default function buildPrlugins(
   options: BuildOptions
@@ -22,6 +23,7 @@ export default function buildPrlugins(
   if (isDev) {
     plugins.push(new webpack.ProgressPlugin());
     plugins.push(new ForkTsCheckerWebpackPlugin())
+    plugins.push(new ReactRefreshWebpackPlugin())
   } else {
     plugins.push(
       new MiniCssExtractPlugin({
