@@ -1,7 +1,8 @@
 import { ModuleOptions } from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { BuildOptions } from "./types/types";
-import ReactRefreshTypeScript from 'react-refresh-typescript'
+import ReactRefreshTypeScript from "react-refresh-typescript";
+import buildBabelLodaer from "./babel/buildBabelLoader";
 
 export default function buildLoaders(
   options: BuildOptions
@@ -64,5 +65,12 @@ export default function buildLoaders(
       },
     ],
   };
-  return [cssLoader, tsLoader, assetsLoader, svgrLoader];
+  const babelLoader = buildBabelLodaer(options);
+  return [
+    cssLoader,
+    tsLoader,
+    // babelLoader,
+    assetsLoader,
+    svgrLoader,
+  ];
 }
