@@ -5,6 +5,8 @@ import {
   BuildPlatform,
   buildWebpack,
 } from "@packages/build-config";
+import { container } from "webpack";
+import packageJson from "./package.json";
 
 interface EnvVariables {
   mode: BuildMode;
@@ -23,10 +25,36 @@ export default (env: EnvVariables) => {
   };
   const config = buildWebpack({
     mode: env.mode,
-    port: env.port ?? 3000,
+    port: env.port ?? 3002,
     path: pathBuilder,
     isAnaliser: env.isAnalizer,
     platform: env.platform ?? "desctop",
   });
+
+  config.plugins.push(
+    new container.ModuleFederationPlugin({
+      name: "admin",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./Router": "./src/router/Router.tsx",
+      },
+      shared: {
+        ...packageJson.dependencies,
+        react: {
+          eager: true,
+          requiredVersion: packageJson.dependencies["react"],
+        },
+        "react-router-dom": {
+          eager: true,
+          requiredVersion: packageJson.dependencies["react-router-dom"],
+        },
+        "react-dom": {
+          eager: true,
+          requiredVersion: packageJson.dependencies["react-dom"],
+        },
+      },
+    })
+  );
+
   return config;
 };
